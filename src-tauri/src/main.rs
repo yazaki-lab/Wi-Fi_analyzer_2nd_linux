@@ -4,6 +4,14 @@
 fn simple_command() {
     println!("I was invoked from JS!");
 }
+// fn main() {
+//     WiFiAnalyzer2nd_lib::run()
+// }
 fn main() {
-    WiFiAnalyzer2nd_lib::run()
+    tauri::Builder::default()
+        .invoke_handler(tauri::generate_handler![
+            simple_command,
+        ])
+        .run(tauri::generate_context!())
+        .expect("error while running tauri application");
 }
