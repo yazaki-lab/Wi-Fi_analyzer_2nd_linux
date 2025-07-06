@@ -1,60 +1,105 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
+import React, { useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
-// import { open } from '@tauri-apps/api/dialog'
 import "./App.css";
 
 function App() {
-  const [greetMsg, setGreetMsg] = useState("");
-  const [name, setName] = useState("");
+  const [selectedBuilding, setSelectedBuilding] = useState<string>("");
+  const [selectedRoom, setSelectedRoom] = useState<string>("");
+  const [bssids, setBssids] = useState<string[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string>("");
 
-  async function greet() {
-    // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
-    setGreetMsg(await invoke("greet", { name }));
-  }
+  const buildings = ["A", "B", "C", "D"];
+  const rooms = ["101", "102", "201", "202"];
 
-    function executeCommands() {
-    invoke('simple_command')
-  }
-      invoke('command_with_message', { message: 'some message' }).then(message => {
-      console.log('command_with_message', message)
-    });
+  const getBssids = async () => {
+    if (!selectedBuilding || !selectedRoom) {
+      setError("建物と教室を選択してください");
+      return;
+    }
 
+    setLoading(true);
+    setError("");
+    setBssids([]);
+
+    try {
+      const result = await invoke<string[]>("get_bssids", {
+        building: selectedBuilding,
+        room: selectedRoom,
+      });
+      setBssids(result);
+    } catch (err) {
+      setError(`エラーが発生しました: ${err}`);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
-    <main className="container">
-      <h1>Welcome to Tauri + React</h1>
+    <div className="container">
+      <header>
+        <h1>wi-fi.viewer</h1>
+      </header>
 
-      <div className="row">
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo vite" alt="Vite logo" />
-        </a>
-        <a href="https://tauri.app" target="_blank">
-          <img src="/tauri.svg" className="logo tauri" alt="Tauri logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <p>Click on the Tauri, Vite, and React logos to learn more.</p>
+      <main>
+        <div className="form-section">
+          <div className="form-group">
+            <label htmlFor="building">建物を選択:</label>
+            <select
+              id="building"
+              value={selectedBuilding}
+              onChange={(e) => setSelectedBuilding(e.target.value)}
+            >
+              <option value="">-- 建物を選択 --</option>
+              {buildings.map((building) => (
+                <option key={building} value={building}>
+                  {building}棟
+                </option>
+              ))}
+            </select>
+          </div>
 
-      <form
-        className="row"
-        onSubmit={(e) => {
-          e.preventDefault();
-          greet();
-        }}
-      >
-        <input
-          id="greet-input"
-          onChange={(e) => setName(e.currentTarget.value)}
-          placeholder="Enter a name..."
-        />
-        <button type="submit">Greet</button>
-      </form>
-      <p>{greetMsg}</p>
-      <button onClick={executeCommands}>Execute Commands</button>
-    </main>
+          <div className="form-group">
+            <label htmlFor="room">教室を選択:</label>
+            <select
+              id="room"
+              value={selectedRoom}
+              onChange={(e) => setSelectedRoom(e.target.value)}
+            >
+              <option value="">-- 教室を選択 --</option>
+              {rooms.map((room) => (
+                <option key={room} value={room}>
+                  {room}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <button
+            onClick={getBssids}
+            disabled={loading || !selectedBuilding || !selectedRoom}
+            className="scan-button"
+          >
+            {loading ? "スキャン中..." : "BSSID を取得"}
+          </button>
+        </div>
+
+        {error && <div className="error">{error}</div>}
+
+        {bssids.length > 0 && (
+          <div className="results-section">
+            <h2>取得した BSSID:</h2>
+            <div className="bssid-list">
+              {bssids.map((bssid, index) => (
+                <div key={index} className="bssid-item">
+                  {bssid}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </main>
+    </div>
   );
 }
 
