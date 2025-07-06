@@ -1,7 +1,7 @@
 import { useState } from "react";
 import reactLogo from "./assets/react.svg";
 import { invoke } from "@tauri-apps/api/core";
-import { open } from '@tauri-apps/api/dialog'
+// import { open } from '@tauri-apps/api/dialog'
 import "./App.css";
 
 function App() {
@@ -19,10 +19,6 @@ function App() {
       invoke('command_with_message', { message: 'some message' }).then(message => {
       console.log('command_with_message', message)
     });
-
-      function openDialog () {
-    open().then(files => console.log(files))
-  }
 
 
   return (
@@ -58,7 +54,6 @@ function App() {
       </form>
       <p>{greetMsg}</p>
       <button onClick={executeCommands}>Execute Commands</button>
-      <button onClick={openDialog}>Click to open dialog</button>
     </main>
   );
 }
