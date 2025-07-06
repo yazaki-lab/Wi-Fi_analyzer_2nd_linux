@@ -2,23 +2,17 @@ import React, { useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import "./App.css";
 
-interface WifiNetwork {
-  ssid: string;
-  bssid: string;
-  signal: string;
-}
-
 function App() {
   const [selectedBuilding, setSelectedBuilding] = useState<string>("");
   const [selectedRoom, setSelectedRoom] = useState<string>("");
-  const [networks, setNetworks] = useState<WifiNetwork[]>([]);
+  const [bssids, setBssids] = useState<string[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
 
   const buildings = ["A", "B", "C", "D"];
   const rooms = ["101", "102", "201", "202"];
 
-  const getWifiNetworks = async () => {
+  const getBssids = async () => {
     if (!selectedBuilding || !selectedRoom) {
       setError("建物と教室を選択してください");
       return;
@@ -26,14 +20,14 @@ function App() {
 
     setLoading(true);
     setError("");
-    setNetworks([]);
+    setBssids([]);
 
     try {
-      const result = await invoke<WifiNetwork[]>("get_bssids", {
+      const result = await invoke<string[]>("get_bssids", {
         building: selectedBuilding,
         room: selectedRoom,
       });
-      setNetworks(result);
+      setBssids(result);
     } catch (err) {
       setError(`エラーが発生しました: ${err}`);
     } finally {
@@ -82,33 +76,23 @@ function App() {
           </div>
 
           <button
-            onClick={getWifiNetworks}
+            onClick={getBssids}
             disabled={loading || !selectedBuilding || !selectedRoom}
             className="scan-button"
           >
-            {loading ? "スキャン中..." : "Wi-Fi ネットワークを取得"}
+            {loading ? "スキャン中..." : "BSSID を取得"}
           </button>
         </div>
 
         {error && <div className="error">{error}</div>}
 
-        {networks.length > 0 && (
+        {bssids.length > 0 && (
           <div className="results-section">
-            <h2>検出されたWi-Fiネットワーク:</h2>
-            <div className="network-list">
-              {networks.map((network, index) => (
-                <div key={index} className="network-item">
-                  <div className="network-info">
-                    <div className="ssid">
-                      <strong>SSID:</strong> {network.ssid}
-                    </div>
-                    <div className="bssid">
-                      <strong>BSSID:</strong> {network.bssid}
-                    </div>
-                    <div className="signal">
-                      <strong>信号強度:</strong> {network.signal} dBm
-                    </div>
-                  </div>
+            <h2>取得した BSSID:</h2>
+            <div className="bssid-list">
+              {bssids.map((bssid, index) => (
+                <div key={index} className="bssid-item">
+                  {bssid}
                 </div>
               ))}
             </div>
