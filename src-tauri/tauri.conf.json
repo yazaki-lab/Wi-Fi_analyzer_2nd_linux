@@ -1,8 +1,8 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "example",
+  "productName": "WiFi Analyzer 2nd",
   "version": "0.1.0",
-  "identifier": "com.example.app",
+  "identifier": "com.WiFiAnalyzer2nd.app",
   "build": {
     "beforeDevCommand": "yarn dev",
     "devUrl": "http://localhost:1420",
@@ -12,7 +12,7 @@
   "app": {
     "windows": [
       {
-        "title": "example",
+        "title": "WiFi Analyzer 2nd",
         "width": 800,
         "height": 600
       }
@@ -31,5 +31,77 @@
       "icons/icon.icns",
       "icons/icon.ico"
     ]
+  },
+  "tauri": {
+    "allowlist": {
+      "all": true,
+      "dialog": {
+        "all": true,
+        "open": true,
+        "save": true,
+        "message": true
+      },
+      "fs": {
+        "all": true,
+        "readFile": true,
+        "writeFile": true,
+        "readTextFile": true,
+        "writeTextFile": true,
+        "copyFile": true,
+        "createDir": true,
+        "removeFile": true,
+        "exists": true
+      },
+      "path": {
+        "all": true,
+        "resolve": true,
+        "join": true,
+        "basename": true,
+        "dirname": true,
+        "extname": true,
+        "isAbsolute": true,
+        "normalize": true,
+        "sep": true,
+        "relative": true,
+        "toSlashes": true,
+        "fromSlashes": true,
+        "isValid": true
+      },
+      "process": {
+        "all": true,
+        "command": true,
+        "env": true
+      },
+      "shell": {
+        "all": true,
+        "execute": true,
+        "open": true,
+        "openExternal": true
+      },
+      "notification": {
+        "all": true,
+        "sendNotification": true
+      },
+      "os": {
+        "all": true,
+        "platform": true,
+        "type": true,
+        "arch": true,
+        "release": true,
+        "version": true,
+        "hostname": true,
+        "uptime": true,
+        "tmpdir": true,
+        "homeDir": true,
+        "appDataDir": true,
+        "configDir": true,
+        "dataDir": true,
+        "cacheDir": true,
+        "logDir": true,
+        "exe": true,
+        "resourcesDir": true
+      }
+    }
   }
+
 }
