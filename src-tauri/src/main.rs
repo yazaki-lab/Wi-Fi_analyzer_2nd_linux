@@ -4,6 +4,10 @@
 fn simple_command() {
     println!("I was invoked from JS!");
 }
+#[tauri::command]
+fn command_with_message(message: String) -> String {
+    format!("hello {}", message)
+}
 // fn main() {
 //     WiFiAnalyzer2nd_lib::run()
 // }
