@@ -424,6 +424,11 @@
   resolved "https://registry.yarnpkg.com/@rollup/rollup-win32-x64-msvc/-/rollup-win32-x64-msvc-4.44.2.tgz#660018c9696ad4f48abe8c5d56db53c81aadba25"
   integrity sha512-3+QZROYfJ25PDcxFF66UEk8jGWigHJeecZILvkPkyQN7oc5BvFo4YEXFkOs154j3FTMp9mn9Ky8RCOwastduEA==
 
+"@tauri-apps/api@^2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@tauri-apps/api/-/api-2.0.1.tgz#dc49d899fb873b96ee1d46a171384625ba5ad404"
+  integrity sha512-eoQWT+Tq1qSwQpHV+nw1eNYe5B/nm1PoRjQCRiEOS12I1b+X4PUcREfXVX8dPcBT6GrzWGDtaecY0+1p0Rfqlw==
+
 "@tauri-apps/api@^2.6.0":
   version "2.6.0"
   resolved "https://registry.yarnpkg.com/@tauri-apps/api/-/api-2.6.0.tgz#efd873bf04b0d72cea81f9397e16218f5deafe0f"
@@ -501,9 +506,9 @@
     "@tauri-apps/cli-win32-ia32-msvc" "2.6.2"
     "@tauri-apps/cli-win32-x64-msvc" "2.6.2"
 
-"@tauri-apps/plugin-opener@^2":
+"@tauri-apps/plugin-opener@^1.5.0":
   version "2.4.0"
-  resolved "https://registry.npmjs.org/@tauri-apps/plugin-opener/-/plugin-opener-2.4.0.tgz"
+  resolved "https://registry.yarnpkg.com/@tauri-apps/plugin-opener/-/plugin-opener-2.4.0.tgz#57eae5998e1c396791af16832a9dde16eca06439"
   integrity sha512-43VyN8JJtvKWJY72WI/KNZszTpDpzHULFxQs0CJBIYUdCRowQ6Q1feWTDb979N7nldqSuDOaBupZ6wz2nvuWwQ==
   dependencies:
     "@tauri-apps/api" "^2.6.0"
