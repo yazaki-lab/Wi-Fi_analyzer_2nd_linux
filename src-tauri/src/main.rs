@@ -27,7 +27,7 @@ fn get_bssids_macos() -> Result<Vec<String>, String> {
     let mut debug_info = Vec::new();
 
     // Method 1: airport コマンドを使用
-    println!("Trying airport command...");
+    println!("Trying airport command...");  
     let airport_output = Command::new("/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport")
         .args(&["-s"])
         .output();
